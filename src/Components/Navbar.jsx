@@ -19,7 +19,7 @@ const Navbar = () => {
             {/* Desktop Menu */}
             <ol className='hidden md:flex gap-6 text-black'>
                 <li><a href='#home' className='text-black  text-decoration-none p-1 hover:bg-gray-200 hover:p-1 hover:rounded-lg scroll-smooth flex gap-1'>Home</a></li>
-                <li><a href='#shop' className='text-black text-decoration-none p-1 hover:bg-gray-200 hover:p-1 hover:rounded-lg scroll-smooth flex gap-1'><IoBagHandleSharp className='mt-1' />Shop</a></li>
+                <li><a href='#fruits' className='text-black text-decoration-none p-1 hover:bg-gray-200 hover:p-1 hover:rounded-lg scroll-smooth flex gap-1'><IoBagHandleSharp className='mt-1' />Shop</a></li>
                 <li><a href='#contact' className='text-black text-decoration-none p-1 hover:bg-gray-200 hover:p-1 hover:rounded-lg scroll-smooth flex gap-1'>Contact Us</a></li>
             </ol>
 
@@ -41,7 +41,7 @@ const Navbar = () => {
                 <div className='absolute top-16 left-0 w-full bg-white shadow-md md:hidden'>
                     <ol className='flex flex-col items-center gap-2 '>
                         <li><a href='#home' onClick={()=>setIsOpen(false)} className='block py-2  text-black text-decoration-none hover:bg-gray-200 hover:px-10'>Home</a></li>
-                        <li><a href='#shop' onClick={()=>setIsOpen(false)} className=' py-2 text-black text-decoration-none hover:bg-gray-200 hover:px-10 flex gap-1.5'><IoBagHandleSharp size={18} className='mt-1' />Shop</a></li>
+                        <li><a href='#fruits' onClick={()=>setIsOpen(false)} className=' py-2 text-black text-decoration-none hover:bg-gray-200 hover:px-10 flex gap-1.5'><IoBagHandleSharp size={18} className='mt-0.5' />Shop</a></li>
                         <li><a href='#contact' onClick={()=>setIsOpen(false)} className='block py-2 text-black text-decoration-none hover:bg-gray-200 hover:px-10'>Contact Us</a></li>
                         <div className='flex flex-col items-center gap-3'>
                             <a href='#'>

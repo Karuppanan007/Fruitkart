@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Shop from "../Shop";
@@ -12,7 +11,8 @@ const Fruits = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [cart, setCart] = useState({});
-    const [visibleCount, setVisibleCount] = useState(8); 
+    const [visibleCount, setVisibleCount] = useState(8);
+    const [orderConfirmed, setOrderConfirmed] = useState(false);
 
     useEffect(() => {
         axios.get(API)
@@ -53,6 +53,10 @@ const Fruits = () => {
         });
     };
 
+    const handleBuyNow = () => {
+        setOrderConfirmed(true);
+    };
+
     const cartItems = Object.values(cart);
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -63,9 +67,9 @@ const Fruits = () => {
     return (
         <>
             <Shop />
-            <div className="p-4 mt-5">
+            <div id='fruits' className="p-4">
                 <div className="flex-grow flex justify-center">
-                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 mt-15">
                         {data.slice(0, visibleCount).map((item) => (
                             <div key={item.id} className="w-full border border-gray-300 rounded-lg shadow-md flex flex-col p-4">
                                 <img src={item.image} alt={item.name} className="w-28 h-28 rounded-full mb-3 object-cover mx-auto" />
@@ -85,11 +89,10 @@ const Fruits = () => {
                     </div>
                 </div>
 
-                {/* Load More Button */}
                 {visibleCount < data.length && (
                     <div className="flex justify-center mt-5">
                         <button
-                            onClick={() => setVisibleCount((prev) => Math.min(prev + 8, data.length))} // Load more without exceeding array length
+                            onClick={() => setVisibleCount((prev) => Math.min(prev + 8, data.length))}
                             className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition"
                         >
                             Load More
@@ -97,14 +100,12 @@ const Fruits = () => {
                     </div>
                 )}
 
-                {/* 🛒 Cart Summary */}
                 {totalItems > 0 && (
                     <div className="fixed top-40 right-4 md:right-20 bg-white shadow-lg p-4 rounded-lg border border-gray-300 w-72 sm:w-80">
                         <h3 className="text-lg font-semibold">🛒 Cart Summary</h3>
-
                         {cartItems.map((item) => (
                             <div key={item.id} className="flex justify-between items-center border-b py-2">
-                                <img src={item.image} alt={item.name} className="w-10 h-10 rounded-full object-cover" />
+                                <img src={item.image} alt={item.name} className="w-10 h-10 mt-0.5 rounded-full object-cover" />
                                 <div className="flex-grow ml-3">
                                     <p className="text-md">{item.name}</p>
                                     <p className="text-sm text-gray-500">${item.price} x {item.quantity}</p>
@@ -116,19 +117,36 @@ const Fruits = () => {
                                 </div>
                             </div>
                         ))}
-
                         <p className="text-md font-bold mt-3">Total Price: ${totalPrice.toFixed(2)}</p>
                         <div className='flex gap-4 justify-center'>
-                            <button className='bg-green-500 px-3 py-1.5 rounded-lg text-white' onClick={() => alert('Your order will be delivered in 24 hours.')}>Buy Now</button>
+                            <button className='bg-green-500 px-3 py-1.5 rounded-lg text-white' onClick={handleBuyNow}>Buy Now</button>
                             <button className='bg-green-500 px-4 py-1.5 rounded-lg text-white' onClick={hideCart}>Cancel</button>
                         </div>
                     </div>
                 )}
+
+
+                {orderConfirmed && (
+                    <div className="fixed top-40 left-1/2 transform -translate-x-1/2 z-10 bg-white shadow-lg p-6 rounded-lg border border-gray-300 w-80 text-center">
+                        <h3 className="text-lg font-semibold">🎉 Order Confirmed!</h3>
+                            {cartItems.map((item) => (
+                                <div key={item.id} className="flex items-center gap-2 border-b pb-2">
+                                    <img src={item.image} alt={item.name} className="w-10 h-10 rounded-full mb-2 object-cover" />
+                                    <p className="text-gray-700">{item.name} x {item.quantity}</p>
+                                </div>
+                            ))}
+                        <p className="text-gray-600 mt-2">Total Fruits: {totalItems}kg</p>
+                        <p className="text-gray-600">Total Price: ${totalPrice.toFixed(2)}</p>
+                        <div className="mt-3 space-y-2">
+                        </div>
+                        <p className="text-gray-600 mt-3">Your order will be delivered in 24 hours.</p>
+                        <button className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4" onClick={() => setOrderConfirmed(false)}>OK</button>
+                    </div>
+                )}
+
             </div>
         </>
     );
 };
 
 export default Fruits;
-
-

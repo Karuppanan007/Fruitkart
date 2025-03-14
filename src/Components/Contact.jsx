@@ -5,9 +5,6 @@ import { FiPlusCircle } from "react-icons/fi";
 import { IoMdClose } from 'react-icons/io';
 
 const OrderForm = () => {
-    // const [show, setShow] = useState(false);
-    // const [phone, setPhone] = useState("");
-    // const [addPhone, setAddPhone] = useState([]);
     const [phone, setPhone] = useState("");
     const [addPhone, setAddPhone] = useState("");
     const [showPhone, setShowPhone] = useState(false);
@@ -84,7 +81,7 @@ const OrderForm = () => {
     ];
 
     return (
-        <div id='contact' className="p-6 pt-20">
+        <div  className="p-6 pt-20">
                 <h1 className='text-center mb-5'>Contact Page</h1>
 
             <div className="max-w-2xl mx-auto space-y-6">
