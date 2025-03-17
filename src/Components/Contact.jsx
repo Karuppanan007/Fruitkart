@@ -21,7 +21,7 @@ const OrderForm = () => {
     const [addShip, setAddShip] = useState('');
     const [showShip, setShowShip] = useState(false);
 
-    const [selectedDelivery, setSelectedDelivery] = useState('Express Delivery');
+    const [selectedDelivery, setSelectedDelivery] = useState('');
 
 
     const handleAddPhone = () => {
