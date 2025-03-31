@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react';
 import Shop from "../Shop";
 import { LuBaggageClaim } from "react-icons/lu";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { MdEmail } from "react-icons/md";
+import { FaUser } from 'react-icons/fa';
+import { BsTelephoneFill } from "react-icons/bs";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoCloseOutline } from 'react-icons/io5';
 
 const API = 'https://67cfc8d2823da0212a8352c7.mockapi.io/data';
 
@@ -11,7 +16,8 @@ const Fruits = ({ searchQuery }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [cart, setCart] = useState({});
-    const [visibleCount, setVisibleCount] = useState(8);
+    const [visibleCount, setVisibleCount] = useState(12);
+    const [address, setAddress] = useState('');
     const [orderConfirmed, setOrderConfirmed] = useState(false);
 
     useEffect(() => {
@@ -54,9 +60,19 @@ const Fruits = ({ searchQuery }) => {
     };
 
     const handleBuyNow = () => {
-        setOrderConfirmed(true);
+        setAddress(true);
     };
 
+    const addressSubmit = () => {
+        setAddress(false);
+        setOrderConfirmed(true);
+
+    }
+    const orderConfirm = () => {
+        setOrderConfirmed(false);
+        setCart({});
+
+    }
     const cartItems = Object.values(cart);
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -73,13 +89,13 @@ const Fruits = ({ searchQuery }) => {
     return (
         <>
             <Shop />
-            <div id='fruits' className="p-2">
+            <div id='fruits' className="">
                 <div className="flex-grow flex justify-center items-center">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-5">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-20">
                         {visibleData.length > 0 ? (
                             visibleData.map((item) => (
                                 <div key={item.id} className="w-full  border border-gray-300 rounded-lg shadow-md flex flex-col p-4">
-                                    <img src={item.image} alt={item.name} className="w-28 h-28 rounded-full mb-3 object-cover mx-auto" />
+                                    <img src={item.image} alt={item.name} className="w-28 h-28 rounded-full mb-3 object-cover mx-4" />
                                     <h3 className="text-lg font-semibold text-center mt-1">{item.name}</h3>
                                     <p className="text-sm text-gray-500 text-start">1 kg</p>
                                     <div className='flex justify-between items-center'>
@@ -136,6 +152,35 @@ const Fruits = ({ searchQuery }) => {
                     </div>
                 )}
 
+
+
+                {address && (
+                    <div className="fixed top-40 left-1/2 transform -translate-x-1/2 z-10 bg-white shadow-xl p-8 rounded-2xl border border-gray-300 w-96 text-center animate-fadeIn">
+                       <span className='flex justify-between'> <h3 className="text-xl font-bold text-gray-800 mb-5">Enter Your Details</h3> <IoCloseOutline size={24} onClick={()=>setAddress(false)} className='cursor-pointer mt-2'/></span>
+                        <form onSubmit={addressSubmit} className="space-y-4 text-left">
+                            <div className="relative flex items-center">
+                                <FaUser className="absolute left-4 text-gray-600" />
+                                <input type="text" name="name" placeholder="Enter your name" className="w-full px-5 p-2 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none" required />
+                            </div>
+                            <div className="relative flex items-center">
+                                <MdEmail  size={18} className="absolute left-4  text-gray-600" />
+                                <input type="email" name="email" placeholder="123@gmail.com" className="w-full px-5 p-2 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none" required />
+                            </div>
+                            <div className="relative flex items-center">
+                                <BsTelephoneFill className="absolute left-4 text-gray-600" />
+                                <input type="tel" name="phone" placeholder="Phone Number" className="w-full px-5 p-2 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none" required />
+                            </div>
+                            <div className="relative flex items-center">
+                                <FaLocationDot className="absolute left-4 top-3 text-gray-600" />
+                                <textarea name="address" placeholder="Delivery Address" className="w-full px-5  p-2 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none" required></textarea>
+                            </div>
+                            <button type="submit" className="bg-green-500 text-white p-2 rounded-xl w-full hover:bg-green-600 transition-all duration-300 shadow-md">Confirm Order</button>
+                        </form>
+                    </div>
+                )}
+
+
+
                 {/* Order Confirmation Popup */}
                 {orderConfirmed && (
                     <div className="fixed top-40 left-1/2 transform -translate-x-1/2 z-10 bg-white shadow-lg p-6 rounded-lg border border-gray-300 w-80 text-center">
@@ -146,10 +191,10 @@ const Fruits = ({ searchQuery }) => {
                                 <p className="text-black">{item.name} x {item.quantity}</p>
                             </div>
                         ))}
-                        <p className="text-gray-600 mt-2">Total Fruits: {totalItems}kg</p>
-                        <p className="text-gray-600">Total Price: ${totalPrice.toFixed(2)}</p>
+                        <p className="text-gray-600 mt-2">Total Fruits: <b>{totalItems}kg</b></p>
+                        <p className="text-gray-600">Total Price: <b>${totalPrice.toFixed(2)}</b></p>
                         <p className="text-gray-600 mt-3">Your order will be delivered in 24 hours.</p>
-                        <button className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4" onClick={() => setOrderConfirmed(false)}>OK</button>
+                        <button className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4" onClick={orderConfirm}>OK</button>
                     </div>
                 )}
 

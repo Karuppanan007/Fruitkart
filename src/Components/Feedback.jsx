@@ -5,7 +5,8 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const autoScrollInterval = 2000; // Auto-scroll every 5s
+  const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
+  const autoScrollInterval = 2000; // Auto-scroll every 3s
   const [isHovered, setIsHovered] = useState(false); // Pause auto-scroll on hover
 
   useEffect(() => {
@@ -16,27 +17,22 @@ const Feedback = () => {
   }, []);
 
   useEffect(() => {
-    if (!isHovered) {
+    if (!isHovered && feedbacks.length > 0) {
       const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) =>
-          prevIndex + 1 < feedbacks.length ? prevIndex + 1 : 0
-        );
+        handleNext();
       }, autoScrollInterval);
-
       return () => clearInterval(interval);
     }
-  }, [feedbacks.length, isHovered]);
+  }, [feedbacks.length, isHovered, currentIndex]);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + 1 < feedbacks.length ? prevIndex + 1 : 0
-    );
+    setDirection(1);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % feedbacks.length);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex - 1 >= 0 ? prevIndex - 1 : feedbacks.length - 1
-    );
+    setDirection(-1);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + feedbacks.length) % feedbacks.length);
   };
 
   return (
@@ -50,26 +46,26 @@ const Feedback = () => {
       >
         {/* Animated Feedback Display */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ x: "100%", opacity: 0 }}
-            animate={{ x: "0%", opacity: 1 }}
-            exit={{ x: "-100%", opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="flex justify-center"
-          >
-            {feedbacks.length > 0 && (
-              <div className="bg-white p-6 border border-gray-300 rounded-lg shadow-lg text-center w-80">
+          {feedbacks.length > 0 && (
+            <motion.div
+              key={currentIndex}
+              initial={{ x: direction === 1 ? "100%" : "-100%", opacity: 0 }}
+              animate={{ x: "0%", opacity: 1 }}
+              exit={{ x: direction === 1 ? "-100%" : "100%", opacity: 0 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              className="flex justify-center"
+            >
+              <div className="bg-white p-6 border border-green-700 rounded-lg shadow-lg text-center w-80">
                 <img
                   src={feedbacks[currentIndex].image}
                   alt={feedbacks[currentIndex].name}
-                  className="w-24 h-24 mx-auto rounded-full border border-gray-300"
+                  className="w-24 h-24 mx-auto rounded-full border border-green-300"
                 />
                 <h3 className="mt-4 font-semibold">{feedbacks[currentIndex].name}</h3>
                 <p className="text-gray-600 mt-2">{feedbacks[currentIndex].feedback}</p>
               </div>
-            )}
-          </motion.div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {/* Navigation Buttons */}
@@ -92,3 +88,4 @@ const Feedback = () => {
 };
 
 export default Feedback;
+

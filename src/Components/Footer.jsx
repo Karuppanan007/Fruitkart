@@ -23,10 +23,10 @@ const Footer = () => {
                 </div>
 
                 {/* Contact Details */}
-                <div className="flex flex-col items-center  space-y-2">
+                <div className="flex flex-col items-center  space-y-2 ">
                     <h4 className="text-lg font-semibold">Contact Us</h4>
-                    <p>📞 +91 7339137389</p>
-                    <p>✉️ karuppusurya007@gmail.com</p>
+                    <a href="tel:7339137389" className="text-decoration-none text-white">📞 +91 7339137389</a>
+                    <a href="mailto:karuppusurya007@gmail.com" className="text-decoration-none text-white">✉️ karuppusurya007@gmail.com</a>
                 </div>
             </div>
 

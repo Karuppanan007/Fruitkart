@@ -40,7 +40,7 @@ const Navbar = () => {
         <>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar transition={Slide} theme="light"/>;
 
-            <nav className="flex items-center p-2 justify-between shadow-md bg-white fixed top-0 left-0 w-full z-20">
+            <nav className="flex items-center p-1 justify-between shadow-md bg-white fixed top-0 left-0 w-full z-20">
                 {/* Logo Section */}
                 <div className="flex items-center gap-2">
                     <img src={logo} alt="Logo" className="h-10" />
@@ -65,7 +65,7 @@ const Navbar = () => {
                                     "Home"
                                 ) : link === "#fruits" ? (
                                     <span className="flex items-center justify-center gap-1">
-                                        <IoBagHandleSharp className="mt-1" /> Shop
+                                        <IoBagHandleSharp className="mt-0.5" /> Shop
                                     </span>
                                 ) : (
                                     "Contact Us"

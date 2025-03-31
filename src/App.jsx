@@ -1,24 +1,32 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Navbar from "./Components/Navbar";
-import Home from "./Components/Home";
-import Contact from "./Components/Contact";
-import Feedback from "./Components/Feedback";
 import Footer from "./Components/Footer";
 
 
+
+const LazyHome = React.lazy(() => import("./Components/Home"));
+const LazyContact = React.lazy(() => import("./Components/Contact"));
+const LazyFeedback = React.lazy(() => import("./Components/Feedback"));
+
+
+const Loader = () => (
+  <div className="loader-container">
+    <div className="spinner"></div>
+  </div>
+);
 
 const App = () => {
   return (
     <>
       <Navbar />
-      <Home />
-      <Contact />
-      <Feedback />
-
+      <Suspense fallback={<Loader />}>
+        <LazyHome />
+        <LazyContact />
+        <LazyFeedback />
+      </Suspense>
       <footer>
         <Footer />
       </footer>
-
     </>
   );
 };
